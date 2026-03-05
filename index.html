@@ -3,73 +3,206 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>jinnanjunbts210-ops</title>
+  <title>技术接单工作室</title>
   <style>
     :root {
-      --bg1: #f8f5ee;
-      --bg2: #e9f0f8;
-      --ink: #0f172a;
+      --bg1: #f3efe7;
+      --bg2: #dceaf6;
+      --ink: #101826;
       --sub: #475569;
-      --card: #ffffffd8;
-      --line: #cbd5e1;
-      --accent: #0ea5e9;
+      --card: #ffffffdc;
+      --line: #c7d2e1;
+      --accent: #0b7fd5;
+      --accent2: #0f766e;
     }
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif;
       color: var(--ink);
       background: radial-gradient(circle at 20% 0%, var(--bg2), var(--bg1) 60%);
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
+      min-height: 100dvh;
+      padding: 28px 14px 42px;
     }
-    .card {
-      width: min(760px, 100%);
+    .card, .grid > section {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 18px;
-      padding: 28px;
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
       box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+    .hero {
+      padding: 28px;
+    }
     h1 {
-      margin: 0 0 8px;
-      font-size: clamp(30px, 6vw, 52px);
+      margin: 0 0 10px;
+      font-size: clamp(30px, 6vw, 56px);
       line-height: 1.1;
       letter-spacing: 0.2px;
     }
     p {
       margin: 0;
       color: var(--sub);
-      font-size: clamp(14px, 2.4vw, 18px);
+      font-size: clamp(14px, 2.2vw, 18px);
     }
-    .meta {
-      margin-top: 22px;
-      padding-top: 16px;
-      border-top: 1px dashed var(--line);
+    .tips {
+      margin-top: 16px;
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      color: var(--sub);
+    }
+    .chip {
+      border: 1px solid var(--line);
+      background: #f8fbff;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: #1e293b;
+    }
+    .cta {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: none;
+      text-decoration: none;
+      color: #fff;
+      background: var(--accent);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 600;
       font-size: 14px;
     }
-    .dot {
-      color: var(--accent);
+    .btn.alt {
+      background: var(--accent2);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .grid > section {
+      padding: 18px;
+    }
+    h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--sub);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    .price {
+      margin-top: 8px;
+      color: #0f172a;
       font-weight: 700;
+      font-size: 15px;
+    }
+    .flow li {
+      margin-bottom: 4px;
+    }
+    footer {
+      text-align: center;
+      color: var(--sub);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    @media (max-width: 860px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="card">
-    <h1>网站已上线</h1>
-    <p>这是 <strong>jinnanjunbts210-ops.github.io</strong> 的主页。后续你让我改内容，我可以直接帮你更新并推送。</p>
-    <div class="meta">
-      <span><span class="dot">•</span> GitHub Pages</span>
-      <span><span class="dot">•</span> Auto Deploy</span>
-      <span><span class="dot">•</span> Main Branch</span>
+  <div class="wrap">
+    <main class="card hero">
+      <h1>低成本技术服务</h1>
+      <p>接系统级项目的构建排错、单测补齐、自动化脚本落地。适合预算有限、但希望快速出结果的个人和小团队。</p>
+      <div class="tips">
+        <span class="chip">先看日志再报价</span>
+        <span class="chip">可按次交付</span>
+        <span class="chip">支持长期维护</span>
+      </div>
+      <div class="cta">
+        <a class="btn" href="mailto:jinnanjunbts210@gmail.com?subject=技术服务咨询&body=请描述你的项目、问题日志和期望交付时间。">立即咨询</a>
+        <a class="btn alt" href="mailto:jinnanjunbts210@gmail.com?subject=预约远程排查&body=请留下可用时间段与问题摘要。">预约排查</a>
+      </div>
+    </main>
+
+    <div class="grid">
+      <section>
+        <h2>构建排错</h2>
+        <ul>
+          <li>编译报错定位</li>
+          <li>依赖链梳理</li>
+          <li>可复现步骤文档</li>
+        </ul>
+        <div class="price">参考价：￥199 - ￥899 / 次</div>
+      </section>
+
+      <section>
+        <h2>测试补齐</h2>
+        <ul>
+          <li>缺口扫描</li>
+          <li>单测补充</li>
+          <li>测试规范收敛</li>
+        </ul>
+        <div class="price">参考价：￥299 - ￥1999 / 模块</div>
+      </section>
+
+      <section>
+        <h2>自动化脚本</h2>
+        <ul>
+          <li>构建脚本标准化</li>
+          <li>发布流水线搭建</li>
+          <li>交付说明与培训</li>
+        </ul>
+        <div class="price">参考价：￥599 起</div>
+      </section>
+
+      <section>
+        <h2>交付流程</h2>
+        <ul class="flow">
+          <li>1. 你发问题和日志</li>
+          <li>2. 我评估并报价</li>
+          <li>3. 达成后开始处理</li>
+          <li>4. 给补丁和说明</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>联系方式</h2>
+        <ul>
+          <li>邮箱：jinnanjunbts210@gmail.com</li>
+          <li>主题建议：项目名 + 问题类型</li>
+          <li>建议附上：错误日志、目标交期</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>说明</h2>
+        <ul>
+          <li>先解决最影响进度的问题</li>
+          <li>支持按小时或按结果计费</li>
+          <li>默认提供后续修订窗口</li>
+        </ul>
+      </section>
     </div>
-  </main>
+    <footer>© 技术接单工作室</footer>
+  </div>
 </body>
 </html>
