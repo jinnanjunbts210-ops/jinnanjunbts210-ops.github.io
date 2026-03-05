@@ -1,0 +1,75 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>jinnanjunbts210-ops</title>
+  <style>
+    :root {
+      --bg1: #f8f5ee;
+      --bg2: #e9f0f8;
+      --ink: #0f172a;
+      --sub: #475569;
+      --card: #ffffffd8;
+      --line: #cbd5e1;
+      --accent: #0ea5e9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 20% 0%, var(--bg2), var(--bg1) 60%);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: min(760px, 100%);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(30px, 6vw, 52px);
+      line-height: 1.1;
+      letter-spacing: 0.2px;
+    }
+    p {
+      margin: 0;
+      color: var(--sub);
+      font-size: clamp(14px, 2.4vw, 18px);
+    }
+    .meta {
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--sub);
+      font-size: 14px;
+    }
+    .dot {
+      color: var(--accent);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>网站已上线</h1>
+    <p>这是 <strong>jinnanjunbts210-ops.github.io</strong> 的主页。后续你让我改内容，我可以直接帮你更新并推送。</p>
+    <div class="meta">
+      <span><span class="dot">•</span> GitHub Pages</span>
+      <span><span class="dot">•</span> Auto Deploy</span>
+      <span><span class="dot">•</span> Main Branch</span>
+    </div>
+  </main>
+</body>
+</html>
