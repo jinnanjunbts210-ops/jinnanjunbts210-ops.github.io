@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&#21487;&#20449;&#32771;&#35797;</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <h1>&#21487;&#20449;&#32771;&#35797;</h1>
+        <p>
+          Offline mode. Share the whole folder. Anyone can open
+          <code>index.html</code> locally and use it.
+        </p>
+      </header>
+
+      <section class="card">
+        <h2>Data Controls</h2>
+        <div class="toolbar">
+          <button id="loadDemoButton" type="button">Load Demo Data</button>
+          <button id="downloadTemplateButton" type="button">Download CSV Template</button>
+          <input id="importFileInput" type="file" accept=".csv,.json" />
+          <label class="inline-check">
+            <input id="importUpdateCheck" type="checkbox" />
+            Update existing IDs
+          </label>
+          <button id="importButton" type="button">Import File</button>
+          <button id="exportButton" type="button">Export All Data</button>
+          <button id="resetButton" class="danger" type="button">Reset Local Data</button>
+        </div>
+        <div id="statusBar" class="status-bar"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>Photo Inbox</h2>
+            <p class="muted-note">
+              Import problem photos or select the whole incoming folder once. Local web pages cannot
+              scan folders automatically.
+            </p>
+          </div>
+          <div class="toolbar">
+            <label class="file-trigger">
+              Add Photos
+              <input id="photoImportInput" type="file" accept="image/*" multiple />
+            </label>
+            <label class="file-trigger">
+              Import Folder
+              <input
+                id="photoFolderInput"
+                type="file"
+                accept="image/*"
+                multiple
+                webkitdirectory
+                directory
+              />
+            </label>
+          </div>
+        </div>
+        <div id="photoInboxSummary" class="photo-summary"></div>
+        <div class="photo-layout">
+          <div id="photoInboxGrid" class="photo-grid"></div>
+          <aside id="photoDetailPanel" class="photo-detail-panel">
+            <div id="photoDetailEmpty" class="photo-detail-empty">
+              Select a photo on the left to inspect it and create a problem record.
+            </div>
+            <div id="photoDetailContent" class="photo-detail-content hidden-block">
+              <div class="photo-preview-frame">
+                <img id="photoPreviewImage" alt="Problem preview" />
+              </div>
+              <div id="photoDetailMeta" class="photo-detail-meta"></div>
+              <div class="toolbar top-gap">
+                <button id="photoMarkIncomingButton" type="button">Move To Incoming</button>
+                <button id="photoMarkProcessedButton" type="button">Mark Processed</button>
+                <button id="photoArchiveButton" type="button">Archive</button>
+                <button id="photoOpenProblemButton" type="button">Open Problem</button>
+                <button id="photoDeleteButton" class="danger" type="button">Delete Photo</button>
+              </div>
+              <form id="photoCreateProblemForm" class="form-grid top-gap">
+                <label>
+                  Problem ID
+                  <input id="photoProblemIdInput" required placeholder="KX-002" />
+                </label>
+                <label>
+                  Title
+                  <input id="photoProblemTitleInput" required placeholder="可信考试题目 KX-002" />
+                </label>
+                <label>
+                  Difficulty
+                  <select id="photoProblemDifficultyInput">
+                    <option value="medium" selected>medium</option>
+                    <option value="easy">easy</option>
+                    <option value="hard">hard</option>
+                  </select>
+                </label>
+                <label>
+                  Tags
+                  <input id="photoProblemTagsInput" placeholder="photo-import|trusted exam" />
+                </label>
+                <label>
+                  Source
+                  <input id="photoProblemSourceInput" value="可信考试" readonly />
+                </label>
+                <label>
+                  Linked Photo
+                  <input id="photoLinkedNameInput" readonly />
+                </label>
+                <button id="photoCreateProblemButton" type="submit">Create Problem Record</button>
+              </form>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="grid-two">
+        <section class="card">
+          <h2>Add Problem</h2>
+          <form id="addProblemForm" class="form-grid">
+            <label>
+              Problem ID
+              <input id="problemIdInput" required placeholder="LC-15" />
+            </label>
+            <label>
+              Title
+              <input id="problemTitleInput" required placeholder="3Sum" />
+            </label>
+            <label>
+              Difficulty
+              <select id="problemDifficultyInput">
+                <option value="medium" selected>medium</option>
+                <option value="easy">easy</option>
+                <option value="hard">hard</option>
+              </select>
+            </label>
+            <label>
+              Tags
+              <input id="problemTagsInput" placeholder="array|two pointers" />
+            </label>
+            <label>
+              URL
+              <input id="problemUrlInput" placeholder="https://leetcode.com/problems/..." />
+            </label>
+            <label>
+              Source
+              <input id="problemSourceInput" value="leetcode" />
+            </label>
+            <button type="submit">Add Problem</button>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Record Attempt</h2>
+          <form id="recordAttemptForm" class="form-grid">
+            <label>
+              Problem
+              <select id="attemptProblemSelect" required></select>
+            </label>
+            <label>
+              Result
+              <select id="attemptResultInput">
+                <option value="AC">AC</option>
+                <option value="WA">WA</option>
+                <option value="TLE">TLE</option>
+                <option value="RE">RE</option>
+                <option value="SKIP">SKIP</option>
+              </select>
+            </label>
+            <label>
+              Minutes
+              <input id="attemptMinutesInput" type="number" min="0" value="0" />
+            </label>
+            <label>
+              Note
+              <input id="attemptNoteInput" placeholder="Edge case missed" />
+            </label>
+            <button type="submit">Record Attempt</button>
+          </form>
+        </section>
+      </section>
+
+      <section class="grid-two">
+        <section class="card">
+          <h2>Today Plan</h2>
+          <form id="planForm" class="plan-row">
+            <label>
+              Review
+              <input id="planReviewInput" type="number" min="0" value="3" />
+            </label>
+            <label>
+              New
+              <input id="planNewInput" type="number" min="0" value="2" />
+            </label>
+            <label>
+              Difficulty
+              <select id="planDifficultyInput">
+                <option value="">all</option>
+                <option value="medium" selected>medium</option>
+                <option value="easy">easy</option>
+                <option value="hard">hard</option>
+              </select>
+            </label>
+            <label>
+              Tag
+              <input id="planTagInput" placeholder="dp" />
+            </label>
+            <button type="submit">Generate Plan</button>
+          </form>
+          <ul id="todayPlanList" class="line-list"></ul>
+        </section>
+
+        <section class="card">
+          <h2>Snapshot</h2>
+          <div id="statsCards" class="stats-grid"></div>
+          <h3>Weak Tags</h3>
+          <ul id="weakTagsList" class="line-list"></ul>
+        </section>
+      </section>
+
+      <section class="card">
+        <h2>&#21487;&#20449;&#32771;&#35797;&#39064;&#24211;&#26639;</h2>
+        <div id="bankBoard" class="bank-grid"></div>
+        <details>
+          <summary>Add Custom Column</summary>
+          <form id="addColumnForm" class="form-grid top-gap">
+            <label>
+              Column ID
+              <input id="columnIdInput" required placeholder="interview_75" />
+            </label>
+            <label>
+              Name
+              <input id="columnNameInput" required placeholder="Interview 75" />
+            </label>
+            <label>
+              Keywords
+              <input id="columnKeywordsInput" placeholder="array|dp|graph" />
+            </label>
+            <label>
+              Problem IDs
+              <input id="columnProblemIdsInput" placeholder="LC-15|LC-56" />
+            </label>
+            <label>
+              Description
+              <input id="columnDescriptionInput" placeholder="Optional note" />
+            </label>
+            <button type="submit">Add Column</button>
+          </form>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>Online Compiler</h2>
+            <p class="muted-note">
+              Runs through Judge0 CE. Internet access is required.
+            </p>
+          </div>
+          <label class="compiler-picker">
+            Problem
+            <select id="compilerProblemSelect"></select>
+          </label>
+        </div>
+        <div id="compilerWorkspace" class="compiler-workspace">
+          <section id="compilerProblemPanel" class="compiler-panel compiler-panel-problem">
+            <div id="compilerProblemMeta" class="compiler-meta"></div>
+            <pre id="problemStatement" class="problem-text"></pre>
+            <div class="sample-grid">
+              <div>
+                <h3>Sample Input</h3>
+                <pre id="sampleInputBlock" class="mono-block"></pre>
+              </div>
+              <div>
+                <h3>Sample Output</h3>
+                <pre id="sampleOutputBlock" class="mono-block"></pre>
+              </div>
+            </div>
+          </section>
+          <div
+            id="compilerSplitter"
+            class="compiler-splitter"
+            role="separator"
+            aria-label="Resize panels"
+            aria-orientation="vertical"
+            tabindex="0"
+            title="Drag to resize the panels"
+          ></div>
+          <section id="compilerEditorPanel" class="compiler-panel compiler-panel-editor">
+            <div class="compiler-toolbar">
+              <span id="compilerLanguageLabel" class="compiler-badge">C++ / Judge0</span>
+              <button id="fillSampleInputButton" type="button">Use Sample Input</button>
+              <button id="resetCodeButton" type="button">Reset Code</button>
+              <button id="downloadFrameButton" type="button">Download Full Frame</button>
+              <button id="runCodeButton" type="button">Compile &amp; Run</button>
+            </div>
+            <label id="sourceCodeLabel" class="compiler-field">
+              Source Code
+              <div id="sourceCodeEditor" class="ace-editor-shell"></div>
+              <textarea id="sourceCodeInput" class="code-editor" spellcheck="false"></textarea>
+            </label>
+            <div class="sample-grid">
+              <label id="stdinLabel" class="compiler-field">
+                Standard Input
+                <div id="stdinEditor" class="ace-editor-shell ace-editor-compact"></div>
+                <textarea id="stdinInput" class="io-editor" spellcheck="false"></textarea>
+              </label>
+              <div class="result-panel">
+                <div class="result-head">
+                  <h3>Result</h3>
+                  <span id="runStatusChip" class="run-status idle">Idle</span>
+                </div>
+                <pre id="outputBlock" class="mono-block result-block">Select a problem to start.</pre>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Problem Bank</h2>
+        <div class="toolbar">
+          <input id="searchInput" placeholder="Search by ID or title" />
+          <select id="filterDifficultyInput">
+            <option value="">all difficulty</option>
+            <option value="easy">easy</option>
+            <option value="medium">medium</option>
+            <option value="hard">hard</option>
+          </select>
+          <input id="filterTagInput" placeholder="tag filter" />
+          <select id="filterColumnInput">
+            <option value="">all columns</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Diff</th>
+                <th>Tags</th>
+                <th>Status</th>
+                <th>Attempts</th>
+                <th>Next Due</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="problemTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Recent Attempts</h2>
+        <ul id="attemptList" class="line-list"></ul>
+      </section>
+    </div>
+
+    <script src="./vendor/ace/ace.js"></script>
+    <script src="./vendor/ace/mode-c_cpp.js"></script>
+    <script src="./vendor/ace/mode-text.js"></script>
+    <script src="./vendor/ace/theme-github_dark.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
