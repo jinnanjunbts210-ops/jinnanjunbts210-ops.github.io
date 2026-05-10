@@ -3353,6 +3353,19 @@ function formatExecutionResult(result, problem, stdinText) {
   return blocks.join("\n\n");
 }
 
+async function formatHttpError(response) {
+  const text = await response.text();
+  if (!text) {
+    return `Compile request failed (${response.status})`;
+  }
+  try {
+    const payload = JSON.parse(text);
+    return `Compile request failed (${response.status}): ${JSON.stringify(payload)}`;
+  } catch {
+    return `Compile request failed (${response.status}): ${text}`;
+  }
+}
+
 function downloadFullFrameForProblem(problem) {
   if (!problem) {
     return;
@@ -3409,7 +3422,7 @@ async function runCurrentCode() {
     });
 
     if (!response.ok) {
-      throw new Error(`Compile request failed (${response.status})`);
+      throw new Error(await formatHttpError(response));
     }
 
     const result = await response.json();
