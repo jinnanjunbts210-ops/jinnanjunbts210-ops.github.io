@@ -4,7 +4,7 @@ const RESULTS = new Set(["AC", "WA", "TLE", "RE", "SKIP"]);
 const DIFFICULTIES = new Set(["easy", "medium", "hard"]);
 const JUDGE0_LANGUAGES_URL = "https://ce.judge0.com/languages/all";
 const JUDGE0_SUBMISSIONS_URL =
-  "https://ce.judge0.com/submissions/?base64_encoded=false&wait=true";
+  "https://ce.judge0.com/submissions/?base64_encoded=true&wait=true";
 const PREFERRED_CPP_LANGUAGE_IDS = [105, 54, 53, 52, 76];
 const COMPILER_SERVICE_LABEL = "C++ / Judge0 CE";
 const COMPILER_LAYOUT_STORAGE_KEY = "trusted_exam_compiler_layout_v1";
@@ -3353,6 +3353,47 @@ function formatExecutionResult(result, problem, stdinText) {
   return blocks.join("\n\n");
 }
 
+function encodeBase64Utf8(value) {
+  const bytes = new TextEncoder().encode(String(value ?? ""));
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let index = 0; index < bytes.length; index += chunkSize) {
+    const chunk = bytes.subarray(index, index + chunkSize);
+    binary += String.fromCharCode(...chunk);
+  }
+  return btoa(binary);
+}
+
+function decodeBase64Utf8(value) {
+  if (value === null || value === undefined) {
+    return value;
+  }
+  const text = String(value);
+  if (!text) {
+    return "";
+  }
+  try {
+    const binary = atob(text);
+    const bytes = new Uint8Array(binary.length);
+    for (let index = 0; index < binary.length; index += 1) {
+      bytes[index] = binary.charCodeAt(index);
+    }
+    return new TextDecoder().decode(bytes);
+  } catch {
+    return value;
+  }
+}
+
+function decodeJudge0Result(result) {
+  return {
+    ...result,
+    stdout: decodeBase64Utf8(result.stdout),
+    stderr: decodeBase64Utf8(result.stderr),
+    compile_output: decodeBase64Utf8(result.compile_output),
+    message: decodeBase64Utf8(result.message),
+  };
+}
+
 async function formatHttpError(response) {
   const text = await response.text();
   if (!text) {
@@ -3414,8 +3455,8 @@ async function runCurrentCode() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         language_id: languageId,
-        source_code: executableSource,
-        stdin: stdinText,
+        source_code: encodeBase64Utf8(executableSource),
+        stdin: encodeBase64Utf8(stdinText),
         cpu_time_limit: 2,
         memory_limit: 262144,
       }),
@@ -3425,7 +3466,7 @@ async function runCurrentCode() {
       throw new Error(await formatHttpError(response));
     }
 
-    const result = await response.json();
+    const result = decodeJudge0Result(await response.json());
     const success = result.status?.id === 3;
     setRunState(
       success ? "success" : "error",
