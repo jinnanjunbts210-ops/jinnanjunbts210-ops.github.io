@@ -67,6 +67,7 @@ const LEGACY_KX001_STARTER_CODE = [
 ].join("\n");
 
 const LEGACY_KX001_SAMPLE_INPUT = ["5", "2 0 2 0 2", "2 4", "1"].join("\n");
+const LEGACY_KX021_SAMPLE_INPUT = "1+2*3-100/2";
 
 const DEFAULT_BANK_COLUMNS = [
   {
@@ -1977,27 +1978,40 @@ const BUILTIN_PROBLEMS = [
   },
   {
     id: "KX-021",
-    title: "[软件认证] 四则运算求值",
-    difficulty: "medium",
-    tags: ["string", "parsing", "stack", "math"],
+    title: "[考试真题] 字符串偏移转换",
+    difficulty: "easy",
+    tags: ["string", "simulation", "ascii", "modulo"],
     url: "",
-    source: "可信考试",
+    source: "考试真题",
     editorMode: "solution_class",
-    solutionEntry: "Calculate",
+    solutionEntry: "ConvertString",
     description: [
-      "给定一个字符串形式的计算表达式 `expression`，其中只包含数字和加 `+`、减 `-`、乘 `*`、除 `/` 四种运算符，乘除计算优先级高于加减。",
-      "请对该计算表达式求值，并返回计算结果，结果以字符串形式返回。如果在计算过程中遇到除零，则返回字符串 `error`。",
+      "给定一个字符串 `inputStr` 和一个整数偏移量 `offset`，请按照规则对字符串进行转换。",
+      "规则 1：如果字符不是英文字母，例如数字、空格或特殊字符，则保持原样不变。",
+      "规则 2：如果字符是英文字母，则按照字母表顺序向后偏移 `offset` 位。字母表循环处理，例如 `z -> a`，`Z -> A`。",
+      "规则 3：如果偏移后的字符属于元音字母 `a e i o u A E I O U`，则继续进行大小写翻转，例如 `a -> A`、`O -> o`。",
       "输入说明",
-      "输入一个参数 `expression`，`1 <= expression.length <= 100`。用例保证输入数字、中间计算结果以及最终计算结果均为整数，且在 `int` 范围内。",
+      "第一个参数 `inputStr` 表示待转换字符串；第二个参数 `offset` 表示字母偏移量。",
       "输出说明",
-      "返回一个字符串：正常情况下为计算结果；遇到除零时为 `error`。",
+      "返回转换后的字符串。",
       "样例 1",
-      "输入：\n`1+2*3-100/2`",
-      "输出：\n`-43`",
-      "你只需要完成 `Solution::Calculate`，系统会自动注入 `main` 和本地测试框架。",
+      "输入：\n`abc`\n`1`",
+      "输出：\n`bcd`",
+      "解释：`a -> b`、`b -> c`、`c -> d`，均不是元音字母，因此直接输出。",
+      "样例 2",
+      "输入：\n`xyz`\n`3`",
+      "输出：\n`Abc`",
+      "解释：`x -> a`、`y -> b`、`z -> c`，其中 `a` 是元音字母，因此翻转为 `A`。",
+      "样例 3",
+      "输入：\n`HELL world`\n`3`",
+      "输出：\n`KHoo zrUOg`",
+      "解释：先偏移得到 `KHOO zruog`，再将元音字母 `O`、`O`、`u`、`o` 翻转大小写。",
+      "数据范围",
+      "`1 <= inputStr.length <= 1000`，`-10^9 <= offset <= 10^9`。",
+      "你只需要完成 `Solution::ConvertString`，系统会自动注入 `main` 和本地测试框架。",
     ].join("\n\n"),
-    sampleInput: "1+2*3-100/2",
-    sampleOutput: "-43",
+    sampleInput: ["abc", "1"].join("\n"),
+    sampleOutput: "bcd",
     starterCode: [
       "#include <string>",
       "",
@@ -2005,7 +2019,7 @@ const BUILTIN_PROBLEMS = [
       "",
       "class Solution {",
       "public:",
-      "  string Calculate(const string& expression) {",
+      "  string ConvertString(const string& inputStr, int offset) {",
       "    return \"\";",
       "  }",
       "};",
@@ -2037,18 +2051,39 @@ const BUILTIN_PROBLEMS = [
       "  }",
       "  return text;",
       "}",
+      "",
+      "int parseInt(string text) {",
+      "  text = trim(text);",
+      "  size_t equal = text.find('=');",
+      "  if (equal != string::npos) {",
+      "    text = trim(text.substr(equal + 1));",
+      "  }",
+      "  return stoi(text);",
+      "}",
+      "",
+      "string parseInputString(string text) {",
+      "  text = trim(text);",
+      "  size_t equal = text.find('=');",
+      "  if (equal != string::npos) {",
+      "    text = trim(text.substr(equal + 1));",
+      "  }",
+      "  return stripOptionalQuotes(text);",
+      "}",
       "}  // namespace trusted_exam_runner",
       "",
       "int main() {",
       "  ios::sync_with_stdio(false);",
       "  cin.tie(nullptr);",
       "",
-      "  string expression;",
-      "  while (expression.empty() && getline(cin, expression)) {}",
-      "  expression = trusted_exam_runner::stripOptionalQuotes(expression);",
+      "  string inputLine;",
+      "  string offsetLine;",
+      "  while (inputLine.empty() && getline(cin, inputLine)) {}",
+      "  while (offsetLine.empty() && getline(cin, offsetLine)) {}",
+      "  string inputStr = trusted_exam_runner::parseInputString(inputLine);",
+      "  int offset = trusted_exam_runner::parseInt(offsetLine);",
       "",
       "  Solution solver;",
-      "  cout << solver.Calculate(expression) << '\\n';",
+      "  cout << solver.ConvertString(inputStr, offset) << '\\n';",
       "  return 0;",
       "}",
     ].join("\n"),
@@ -3768,6 +3803,16 @@ function ensureBuiltinProblems() {
       }
       const existingInput = state.compiler.stdinByProblem[problem.id];
       if (!existingInput || existingInput === LEGACY_KX001_SAMPLE_INPUT) {
+        state.compiler.stdinByProblem[problem.id] = problem.sampleInput || "";
+      }
+    }
+    if (problem.id === "KX-021") {
+      const existingDraft = state.compiler.drafts[problem.id];
+      if (!existingDraft || existingDraft.includes("Calculate(")) {
+        state.compiler.drafts[problem.id] = defaultStarterCode(problem);
+      }
+      const existingInput = state.compiler.stdinByProblem[problem.id];
+      if (!existingInput || existingInput === LEGACY_KX021_SAMPLE_INPUT) {
         state.compiler.stdinByProblem[problem.id] = problem.sampleInput || "";
       }
     }
