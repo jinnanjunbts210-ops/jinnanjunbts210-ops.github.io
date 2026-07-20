@@ -3297,8 +3297,8 @@ const BUILTIN_PROBLEMS = [
     source: "考试真题",
     editorMode: "solution_class",
     solutionEntry: "GetMatchedWordCount",
-    image: "assets/kx-034-word-matrix.jpg",
-    imageCaption: "题库相似例题：字母矩阵中横向或竖向连续相邻字符组成单词。",
+    image: "assets/kx-034-word-matrix.png",
+    imageCaption: "示例矩阵：横向可匹配 EC，竖向可匹配 CB。",
     description: [
       "给定一个字母矩阵 `charMatrix` 和一个目标单词表 `words`，请统计单词表中有多少个单词可以在矩阵中找到。",
       "单词匹配规则",
