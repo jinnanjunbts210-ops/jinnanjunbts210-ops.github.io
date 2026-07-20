@@ -3288,6 +3288,122 @@ const BUILTIN_PROBLEMS = [
       "}",
     ].join("\n"),
   },
+  {
+    id: "KX-034",
+    title: "[考试真题] 字母矩阵单词匹配",
+    difficulty: "medium",
+    tags: ["string", "matrix", "dfs", "backtracking", "simulation"],
+    url: "",
+    source: "考试真题",
+    editorMode: "solution_class",
+    solutionEntry: "GetMatchedWordCount",
+    image: "assets/kx-034-word-matrix.jpg",
+    imageCaption: "题库相似例题：字母矩阵中横向或竖向连续相邻字符组成单词。",
+    description: [
+      "给定一个字母矩阵 `charMatrix` 和一个目标单词表 `words`，请统计单词表中有多少个单词可以在矩阵中找到。",
+      "单词匹配规则",
+      "一个单词可以从矩阵中的任意格子开始。",
+      "每次只能移动到当前格子的上、下、左、右四个相邻格子之一。",
+      "移动过程中依次经过的字符，必须按顺序组成目标单词。",
+      "同一个单词的匹配过程中，同一个格子不能重复使用。",
+      "不同单词之间可以重复使用矩阵中的格子。",
+      "如果矩阵中的字符为 `?`，表示通配符，可以匹配任意一个英文字母。",
+      "如果同一个单词在矩阵中有多种匹配路径，只计数一次。",
+      "输入说明",
+      "第一个参数为字符串矩阵 `charMatrix`，类型为 `vector<string>`。",
+      "第二个参数为单词表 `words`，类型为 `vector<string>`。",
+      "`1 <= charMatrix.size() <= 20`，`1 <= charMatrix[i].size() <= 20`。",
+      "`1 <= words.size() <= 100`，`1 <= words[i].size() <= 100`。",
+      "矩阵字符和单词字符均为大写英文字母，矩阵中可能出现通配符 `?`。",
+      "输出说明",
+      "返回一个整数，表示 `words` 中可以在矩阵里匹配到的单词数量。",
+      "样例 1",
+      "输入：\n`charMatrix = [\"ECVR\", \"ABNH\", \"MBYH\"]`\n`words = [\"EC\", \"CB\"]`",
+      "输出：\n`2`",
+      "解释：`EC` 可以在第一行从左到右找到；`CB` 可以在第二列从上到下找到，因此共有 2 个单词能匹配。",
+      "样例 2",
+      "输入：\n`charMatrix = [\"AC\", \"EX\"]`\n`words = [\"XE\", \"ACX\", \"AX\"]`",
+      "输出：\n`2`",
+      "解释：`XE` 可以从 X 向左找到 E；`ACX` 可以从 A 到 C 再到 X；`AX` 不能直接相邻组成。",
+      "你只需要完成 `Solution::GetMatchedWordCount`，系统会自动注入 `main` 和本地测试框架。",
+    ].join("\n\n"),
+    sampleInput: [
+      "[\"ECVR\", \"ABNH\", \"MBYH\"]",
+      "[\"EC\", \"CB\"]",
+    ].join("\n"),
+    sampleOutput: "2",
+    starterCode: [
+      "#include <string>",
+      "#include <vector>",
+      "",
+      "using namespace std;",
+      "",
+      "class Solution {",
+      "public:",
+      "  int GetMatchedWordCount(const vector<string>& charMatrix, const vector<string>& words) {",
+      "    return 0;",
+      "  }",
+      "};",
+    ].join("\n"),
+    runnerTemplate: [
+      "#include <bits/stdc++.h>",
+      "",
+      "using namespace std;",
+      "",
+      "__USER_CODE__",
+      "",
+      "namespace trusted_exam_runner {",
+      "vector<string> parseStringList(const string& text) {",
+      "  vector<string> values;",
+      "  string current;",
+      "  bool inString = false;",
+      "  for (char ch : text) {",
+      "    if (ch == '\"') {",
+      "      if (inString) {",
+      "        values.push_back(current);",
+      "        current.clear();",
+      "      }",
+      "      inString = !inString;",
+      "      continue;",
+      "    }",
+      "    if (inString) {",
+      "      current.push_back(ch);",
+      "    }",
+      "  }",
+      "  if (!values.empty()) return values;",
+      "",
+      "  current.clear();",
+      "  for (char ch : text) {",
+      "    if (isalnum(static_cast<unsigned char>(ch)) || ch == '?') {",
+      "      current.push_back(ch);",
+      "    } else if (!current.empty()) {",
+      "      values.push_back(current);",
+      "      current.clear();",
+      "    }",
+      "  }",
+      "  if (!current.empty()) values.push_back(current);",
+      "  return values;",
+      "}",
+      "}  // namespace trusted_exam_runner",
+      "",
+      "int main() {",
+      "  ios::sync_with_stdio(false);",
+      "  cin.tie(nullptr);",
+      "",
+      "  string matrixLine;",
+      "  string wordsLine;",
+      "  while (matrixLine.empty() && getline(cin, matrixLine)) {}",
+      "  while (wordsLine.empty() && getline(cin, wordsLine)) {}",
+      "",
+      "  vector<string> charMatrix = trusted_exam_runner::parseStringList(matrixLine);",
+      "  vector<string> words = trusted_exam_runner::parseStringList(wordsLine);",
+      "",
+      "  Solution solver;",
+      "  cout << solver.GetMatchedWordCount(charMatrix, words) << '\\n';",
+      "  return 0;",
+      "}",
+    ].join("\n"),
+  },
 ];
 
 const dom = {
@@ -3304,6 +3420,9 @@ const dom = {
   compilerSplitter: document.getElementById("compilerSplitter"),
   compilerProblemMeta: document.getElementById("compilerProblemMeta"),
   problemStatement: document.getElementById("problemStatement"),
+  problemImageFrame: document.getElementById("problemImageFrame"),
+  problemImage: document.getElementById("problemImage"),
+  problemImageCaption: document.getElementById("problemImageCaption"),
   sampleInputBlock: document.getElementById("sampleInputBlock"),
   sampleOutputBlock: document.getElementById("sampleOutputBlock"),
   compilerLanguageLabel: document.getElementById("compilerLanguageLabel"),
@@ -3443,6 +3562,8 @@ function sanitizeProblem(raw) {
     url: String(raw.url || "").trim(),
     source: String(raw.source || "leetcode").trim(),
     description: String(raw.description || "").trim(),
+    image: String(raw.image || raw.imagePath || raw.image_path || "").trim(),
+    imageCaption: String(raw.imageCaption || raw.image_caption || "").trim(),
     sampleInput: String(raw.sampleInput || raw.sample_input || "").trim(),
     sampleOutput: String(raw.sampleOutput || raw.sample_output || "").trim(),
     starterCode: String(raw.starterCode || raw.starter_code || "").trim(),
@@ -4665,6 +4786,10 @@ function renderCompiler() {
     dom.compilerProblemSelect.appendChild(option);
     dom.compilerProblemMeta.textContent = "Add or import a problem first.";
     dom.problemStatement.textContent = "";
+    dom.problemImageFrame.hidden = true;
+    dom.problemImage.removeAttribute("src");
+    dom.problemImage.alt = "";
+    dom.problemImageCaption.textContent = "";
     dom.sampleInputBlock.textContent = "-";
     dom.sampleOutputBlock.textContent = "-";
     setSourceBufferValue("");
@@ -4702,6 +4827,17 @@ function renderCompiler() {
   `;
   dom.problemStatement.textContent =
     selected.description || "No problem statement yet. You can still compile and run code.";
+  if (selected.image) {
+    dom.problemImage.src = selected.image;
+    dom.problemImage.alt = selected.imageCaption || `${selected.id} problem reference image`;
+    dom.problemImageCaption.textContent = selected.imageCaption || "";
+    dom.problemImageFrame.hidden = false;
+  } else {
+    dom.problemImageFrame.hidden = true;
+    dom.problemImage.removeAttribute("src");
+    dom.problemImage.alt = "";
+    dom.problemImageCaption.textContent = "";
+  }
   dom.sampleInputBlock.textContent = selected.sampleInput || "(empty)";
   dom.sampleOutputBlock.textContent = selected.sampleOutput || "(empty)";
   dom.compilerLanguageLabel.textContent = COMPILER_SERVICE_LABEL;
@@ -4742,6 +4878,8 @@ function mergeProblem(existing, incoming) {
     url: incoming.url || existing?.url || "",
     source: incoming.source || existing?.source || "",
     description: incoming.description || existing?.description || "",
+    image: incoming.image || existing?.image || "",
+    imageCaption: incoming.imageCaption || existing?.imageCaption || "",
     sampleInput: incoming.sampleInput || existing?.sampleInput || "",
     sampleOutput: incoming.sampleOutput || existing?.sampleOutput || "",
     starterCode: incoming.starterCode || existing?.starterCode || "",
